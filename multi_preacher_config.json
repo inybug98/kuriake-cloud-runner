@@ -1,0 +1,85 @@
+{
+  "youtube_channel_status": {
+    "connected": true,
+    "channel_name": "Kuriake Streams",
+    "channel_id": "UCMJ6-T82GQtuA4gTH9BQM9A",
+    "custom_url": "@kuriakestreams",
+    "upload_mode": "youtube_api_direct",
+    "default_privacy": "private"
+  },
+  "preachers": {
+    "apostle_joshua_selman": {
+      "display_name": "Apostle Joshua Selman",
+      "ministry": "Koinonia Global / Eternity Network International",
+      "playlist_id": "PLbUeKSuALlWA",
+      "playlist_title": "Apostle Joshua Selman - 2-Hour Midnight Prayer & Declarations",
+      "channel_whitelist": [
+        "UC9y2p4k2c4q3Gv8J_eL9oeg"
+      ],
+      "viral_outlier_themes": [
+        "MIDNIGHT WARFARE: Pray This Before Sleep",
+        "FINANCIAL BREAKTHROUGH: Breaking Ancient Altars & Poverty",
+        "DESTINY FAVOR: When You Wake Up Between 3 AM and 5 AM"
+      ],
+      "search_keywords": [
+        "Apostle Joshua Selman prayer",
+        "Koinonia Miracle Service prayer session",
+        "prophetic declarations"
+      ],
+      "preacher_plate": "assets/selman_authentic_decree_left.jpg",
+      "default_style": "midnight_warfare"
+    },
+    "pastor_chris_oyakhilome": {
+      "display_name": "Pastor Chris Oyakhilome",
+      "ministry": "Christ Embassy / LoveWorld Inc.",
+      "playlist_id": "PLL45DQSQhAm0",
+      "playlist_title": "Pastor Chris Oyakhilome - Atmosphere for Miracles & Tongues",
+      "channel_whitelist": [
+        "LoveWorld",
+        "Christ Embassy Official"
+      ],
+      "viral_outlier_themes": [
+        "PRAYING IN TONGUES: 8 Hours Supernatural Destiny Charge",
+        "ATMOSPHERE FOR MIRACLES: Divine Health & Healing Confessions",
+        "FAITH PROCLAMATIONS: The Art of Life Programming"
+      ],
+      "search_keywords": [
+        "Pastor Chris Oyakhilome prayer declarations",
+        "Pastor Chris praying in tongues",
+        "Atmosphere for miracles prayer"
+      ],
+      "preacher_plate": "assets/yt_thumb_pastor_chris_8hours.jpg",
+      "default_style": "destiny_favor"
+    },
+    "pastor_dolapo_lawal": {
+      "display_name": "Pastor Dolapo Lawal",
+      "ministry": "Zoe Household Global / Zoe Place Church",
+      "playlist_id": "PLYCDsixQyGRw",
+      "playlist_title": "Pastor Dolapo Lawal - Zoe Life, Faith & Supernatural Supply",
+      "channel_whitelist": [
+        "Zoe Household Global",
+        "Pastor Dolapo Lawal"
+      ],
+      "viral_outlier_themes": [
+        "IDENTITY IN CHRIST: Walking in the Supernatural Zoe Life",
+        "FAITH & GRACE: Breaking Cultural Religious Bondage",
+        "DEEP WORSHIP & PRAYER: Awakening the Spirit"
+      ],
+      "search_keywords": [
+        "Pastor Dolapo Lawal prayer",
+        "Zoe Household worship prayer",
+        "Pastor Dolapo Lawal sermon"
+      ],
+      "preacher_plate": "assets/yt_thumb_pastor_lawal_pray.jpg",
+      "default_style": "financial_breakthrough"
+    }
+  },
+  "compliance_standards": {
+    "date_cutoff": "2024-10-11",
+    "anti_ai_guardrail": true,
+    "loudness_target_lufs": -14.2,
+    "first_chapter_must_be_zero": true,
+    "no_keyword_stuffing_in_description": true,
+    "transformative_intro_required": true
+  }
+}

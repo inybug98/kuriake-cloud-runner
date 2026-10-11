@@ -1,0 +1,11 @@
+# Credentials & Secrets (Passed via GitHub Secrets)
+youtube_token.json
+client_secrets.json
+*.jsonl
+*.log
+
+# Build & temp files
+cloud_build/
+__pycache__/
+*.pyc
+.env

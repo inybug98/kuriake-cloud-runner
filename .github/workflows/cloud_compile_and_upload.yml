@@ -1,0 +1,96 @@
+name: Kuriake Streams Cloud Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      preacher:
+        description: 'Target Preacher'
+        required: true
+        default: 'selman'
+        type: choice
+        options:
+          - 'selman'
+          - 'chris'
+          - 'lawal'
+      source_url:
+        description: 'Specific Sermon Audio Source URL (Optional)'
+        required: false
+        default: ''
+      title:
+        description: 'Video Title Override (Optional)'
+        required: false
+        default: ''
+      privacy:
+        description: 'YouTube Video Privacy'
+        required: true
+        default: 'public'
+        type: choice
+        options:
+          - 'public'
+          - 'unlisted'
+          - 'private'
+      test_mode:
+        description: 'Run 60s Fast Verification (Check Audio & Pipeline)'
+        required: false
+        default: false
+        type: boolean
+
+  repository_dispatch:
+    types: [trigger-compilation]
+
+jobs:
+  cloud-render-and-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install FFmpeg & Audio Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore YouTube API Credentials
+        run: |
+          echo "${{ secrets.YOUTUBE_TOKEN_JSON }}" > youtube_token.json
+          echo "${{ secrets.CLIENT_SECRETS_JSON }}" > client_secrets.json
+
+      - name: Run Cloud Production & YouTube Upload
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          ARGS="--preacher ${{ github.event.inputs.preacher || 'selman' }} --privacy ${{ github.event.inputs.privacy || 'public' }}"
+          
+          if [ "${{ github.event.inputs.test_mode }}" = "true" ]; then
+            ARGS="$ARGS --test_mode"
+          fi
+          
+          if [ -n "${{ github.event.inputs.source_url }}" ]; then
+            ARGS="$ARGS --source_url '${{ github.event.inputs.source_url }}'"
+          fi
+
+          if [ -n "${{ github.event.inputs.title }}" ]; then
+            ARGS="$ARGS --title '${{ github.event.inputs.title }}'"
+          fi
+
+          echo "Executing: python cloud_production_pipeline.py $ARGS"
+          python cloud_production_pipeline.py $ARGS
+
+      - name: Post Job Summary
+        if: always()
+        run: |
+          echo "### 🚀 Kuriake Streams Cloud Execution Completed" >> $GITHUB_STEP_SUMMARY
+          echo "Rendered on 10Gbps Azure Cloud Datacenter with **Zero PC Resource Usage**." >> $GITHUB_STEP_SUMMARY
