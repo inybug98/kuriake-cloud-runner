@@ -4,36 +4,25 @@ on:
   workflow_dispatch:
     inputs:
       preacher:
-        description: 'Target Preacher'
+        description: 'Target Preacher (selman / chris / lawal)'
         required: true
         default: 'selman'
-        type: choice
-        options:
-          - 'selman'
-          - 'chris'
-          - 'lawal'
       source_url:
         description: 'Specific Sermon Audio Source URL (Optional)'
         required: false
         default: ''
-      title:
+      video_title:
         description: 'Video Title Override (Optional)'
         required: false
         default: ''
       privacy:
-        description: 'YouTube Video Privacy'
+        description: 'YouTube Video Privacy (public / unlisted / private)'
         required: true
         default: 'public'
-        type: choice
-        options:
-          - 'public'
-          - 'unlisted'
-          - 'private'
       test_mode:
-        description: 'Run 60s Fast Verification (Check Audio & Pipeline)'
+        description: 'Run 60s Fast Verification (true / false)'
         required: false
-        default: false
-        type: boolean
+        default: 'false'
 
   repository_dispatch:
     types: [trigger-compilation]
@@ -64,18 +53,21 @@ jobs:
           pip install -r requirements.txt
 
       - name: Restore YouTube API Credentials
+        env:
+          YT_TOKEN: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+          YT_CLIENT_SECRET: ${{ secrets.CLIENT_SECRETS_JSON }}
         run: |
-          echo "${{ secrets.YOUTUBE_TOKEN_JSON }}" > youtube_token.json
-          echo "${{ secrets.CLIENT_SECRETS_JSON }}" > client_secrets.json
+          echo "$YT_TOKEN" > youtube_token.json
+          echo "$YT_CLIENT_SECRET" > client_secrets.json
 
       - name: Run Cloud Production & YouTube Upload
         env:
           PYTHONUNBUFFERED: "1"
-          PREACHER_INPUT: ${{ inputs.preacher }}
-          PRIVACY_INPUT: ${{ inputs.privacy }}
-          TEST_MODE_INPUT: ${{ inputs.test_mode }}
-          SOURCE_URL_INPUT: ${{ inputs.source_url }}
-          TITLE_INPUT: ${{ inputs.title }}
+          PREACHER_INPUT: ${{ github.event.inputs.preacher }}
+          PRIVACY_INPUT: ${{ github.event.inputs.privacy }}
+          TEST_MODE_INPUT: ${{ github.event.inputs.test_mode }}
+          SOURCE_URL_INPUT: ${{ github.event.inputs.source_url }}
+          TITLE_INPUT: ${{ github.event.inputs.video_title }}
         run: |
           PREACHER="${PREACHER_INPUT:-selman}"
           PRIVACY="${PRIVACY_INPUT:-public}"
