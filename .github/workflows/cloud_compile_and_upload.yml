@@ -71,19 +71,27 @@ jobs:
       - name: Run Cloud Production & YouTube Upload
         env:
           PYTHONUNBUFFERED: "1"
+          PREACHER_INPUT: ${{ inputs.preacher }}
+          PRIVACY_INPUT: ${{ inputs.privacy }}
+          TEST_MODE_INPUT: ${{ inputs.test_mode }}
+          SOURCE_URL_INPUT: ${{ inputs.source_url }}
+          TITLE_INPUT: ${{ inputs.title }}
         run: |
-          ARGS="--preacher ${{ github.event.inputs.preacher || 'selman' }} --privacy ${{ github.event.inputs.privacy || 'public' }}"
+          PREACHER="${PREACHER_INPUT:-selman}"
+          PRIVACY="${PRIVACY_INPUT:-public}"
           
-          if [ "${{ github.event.inputs.test_mode }}" = "true" ]; then
+          ARGS="--preacher $PREACHER --privacy $PRIVACY"
+          
+          if [ "$TEST_MODE_INPUT" = "true" ]; then
             ARGS="$ARGS --test_mode"
           fi
           
-          if [ -n "${{ github.event.inputs.source_url }}" ]; then
-            ARGS="$ARGS --source_url '${{ github.event.inputs.source_url }}'"
+          if [ -n "$SOURCE_URL_INPUT" ]; then
+            ARGS="$ARGS --source_url $SOURCE_URL_INPUT"
           fi
 
-          if [ -n "${{ github.event.inputs.title }}" ]; then
-            ARGS="$ARGS --title '${{ github.event.inputs.title }}'"
+          if [ -n "$TITLE_INPUT" ]; then
+            ARGS="$ARGS --title '$TITLE_INPUT'"
           fi
 
           echo "Executing: python cloud_production_pipeline.py $ARGS"
